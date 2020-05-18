@@ -1,0 +1,2 @@
+model_checkpoint_path: "F:\\bigwork\\object\\models_CNN\\model_conv\\nodule-classifier"
+all_model_checkpoint_paths: "F:\\bigwork\\object\\models_CNN\\model_conv\\nodule-classifier"
