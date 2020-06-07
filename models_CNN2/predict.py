@@ -29,7 +29,7 @@ def get_predictions(X_test_images, Y_test_labels):
     network = convnet.define_network(X_test_images)
     model = tflearn.DNN(network, tensorboard_verbose=0,\
   		   checkpoint_path='nodule-classifier.ckpt')
-    model.load("./models_CNN/model_conv/nodule-classifier")
+    model.load("./models_CNN2/model_conv/nodule-classifier")
 
     predictions = np.vstack(model.predict(X_test_images[:,:,:,:]))
     #label_predictions = np.vstack(model.predict_label(X_test_images[:,:,:,:]))
@@ -77,8 +77,9 @@ def get_metrics(Y_test_labels, label_predictions):
     precision = TP*1.0/(TP+FP)
     recall = TP*1.0/(TP+FN)
     specificity = TN*1.0/(TN+FP)
+    acc = (TP+TN)/(TN+FP+FN+TP)
 
-    return precision, recall, specificity, cm
+    return precision, recall, specificity, acc, cm
 
 def main():
     # Load HDF5 dataset
@@ -87,12 +88,12 @@ def main():
     Y = h5f2['Y']
 
     predictions, label_predictions = get_predictions(X,Y)
-    print(predictions)
+    #print(predictions)
 
     #fpr, tpr, roc_auc = get_roc_curve(Y,predictions)
 
-    precision, recall, specificity, cm = get_metrics(Y,label_predictions)
+    precision, recall, specificity, acc, cm = get_metrics(Y,label_predictions)
 
-    print("precision", precision, "recall", recall, "specificity", specificity)
+    print("precision", precision, "recall", recall, "specificity", specificity,"accuracy",acc)
     
 main()

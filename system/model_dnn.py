@@ -13,8 +13,13 @@ def getdata():
     X_val_images = h5f2['X'][:,:,:,0]
     Y_val_labels = h5f2['Y'][:,0]
 
+    h5f3 = h5py.File('./data/test.h5', 'r')
+    X_test_images = h5f3['X'][:,:,:,0]
+    Y_test_labels = h5f3['Y'][:,0]
+
     X_train_images=np.reshape(X_train_images, (-1, n_inputs))
     X_val_images=np.reshape(X_val_images, (-1, n_inputs))
+    X_test_images=np.reshape(X_test_images,(-1,n_inputs))
 
     h5f.close()
     h5f2.close()
@@ -24,7 +29,7 @@ def getdata():
     print('Validate samples: ' + str(len(X_val_images)))
     print('----')
 
-    return X_train_images, Y_train_labels, X_val_images, Y_val_labels
+    return X_train_images, Y_train_labels, X_val_images, Y_val_labels, X_test_images, Y_test_labels
 
 def next_batch(train_data, train_target, batch_size):  
     index = [ i for i in range(0,len(train_target)) ]  
@@ -77,3 +82,54 @@ with tf.name_scope("val_accuracy"):
     #获取logits里面最大的哪一位并与y比较类别是否相同，返回True或False一组值
     correct=tf.nn.in_top_k(logits,y,1)
     accuracy=tf.reduce_mean(tf.cast(correct,tf.float32))
+
+with tf.name_scope("recall"):
+    predictions = tf.argmax(logits, 1)
+    actuals = y
+
+    ones_like_actuals = tf.ones_like(actuals)
+    zeros_like_actuals = tf.zeros_like(actuals)
+    ones_like_predictions = tf.ones_like(predictions)
+    zeros_like_predictions = tf.zeros_like(predictions)
+ 
+    tp_op = tf.reduce_sum(
+        tf.cast(
+            tf.logical_and(
+                tf.equal(actuals, ones_like_actuals),
+                tf.equal(predictions, ones_like_predictions)
+            ),
+            "float"
+        )
+    )
+ 
+    tn_op = tf.reduce_sum(
+        tf.cast(
+          tf.logical_and(
+            tf.equal(actuals, zeros_like_actuals),
+            tf.equal(predictions, zeros_like_predictions)
+          ),
+          "float"
+        )
+    )
+ 
+    fp_op = tf.reduce_sum(
+        tf.cast(
+          tf.logical_and(
+            tf.equal(actuals, zeros_like_actuals),
+            tf.equal(predictions, ones_like_predictions)
+          ),
+          "float"
+        )
+    )
+ 
+    fn_op = tf.reduce_sum(
+        tf.cast(
+          tf.logical_and(
+            tf.equal(actuals, ones_like_actuals),
+            tf.equal(predictions, zeros_like_predictions)
+          ),
+          "float"
+        )
+    )
+
+

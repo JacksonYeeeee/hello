@@ -22,5 +22,11 @@ def get_data_dbn():
     val_labels = h5f2['Y']
     val_labels = np.array(val_labels)
     datasets = [train_data_set,train_labels,val_data_set,val_labels]
-    return datasets
+    h5f3 = h5py.File('./data/test.h5', 'r')
+    test_data_set = h5f3['X'][:,:,:,0]
+    test_data_set = np.reshape(test_data_set,(len(test_data_set),-1))
+    test_labels = h5f3['Y']
+    test_labels = np.array(test_labels)
+    datasets = [train_data_set,train_labels,val_data_set,val_labels]
+    return datasets,test_data_set,test_labels
 

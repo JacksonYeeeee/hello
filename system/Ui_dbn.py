@@ -35,17 +35,17 @@ class Ui_Form_DBN(QWidget):
         self.label_train1.setFont(font)
 
         self.label_train2 = QtWidgets.QLabel(self.groupBox_train)  # RBM学习率
-        self.label_train2.setGeometry(QtCore.QRect(50, 110, 81, 20))
+        self.label_train2.setGeometry(QtCore.QRect(40, 70, 81, 20))
         self.lineEdit = QtWidgets.QLineEdit(self.groupBox_train)
-        self.lineEdit.setGeometry(QtCore.QRect(170, 110, 81, 25))
+        self.lineEdit.setGeometry(QtCore.QRect(170, 70, 81, 25))
         self.lineEdit.setFrame(False)
         self.lineEdit.setPlaceholderText(str(0.001))
         self.lineEdit.setValidator(QDoubleValidator(0, 20, 6, self))
 
         self.label_train3_2 = QtWidgets.QLabel(self.groupBox_train)  # RBM迭代次数
-        self.label_train3_2.setGeometry(QtCore.QRect(50, 170, 91, 20))
+        self.label_train3_2.setGeometry(QtCore.QRect(40, 110, 91, 20))
         self.horizontalSlider_2 = QtWidgets.QSlider(self.groupBox_train)
-        self.horizontalSlider_2.setGeometry(QtCore.QRect(170, 170, 120, 22))
+        self.horizontalSlider_2.setGeometry(QtCore.QRect(170, 110, 110, 22))
         self.horizontalSlider_2.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider_2.setMinimum(0)
         self.horizontalSlider_2.setMaximum(100)
@@ -54,16 +54,16 @@ class Ui_Form_DBN(QWidget):
         '''self.horizontalSlider.setTickInterval(5000)
         self.horizontalSlider.setTickPosition(QSlider.TicksAbove)'''
         self.slider_text1_2 = QtWidgets.QLineEdit(self.groupBox_train)
-        self.slider_text1_2.setGeometry(QtCore.QRect(300, 170, 45, 27)) 
+        self.slider_text1_2.setGeometry(QtCore.QRect(290, 110, 45, 27)) 
         self.slider_text1_2.setFrame(False)
         self.slider_text1_2.setValidator(QIntValidator(0, 100, self))
         self.slider_text1_2.setPlaceholderText(str(10))
         self.slider_text1_2.returnPressed.connect(self.edit2slider3)
 
         self.label_train4 = QtWidgets.QLabel(self.groupBox_train) # 单次迭代数据量
-        self.label_train4.setGeometry(QtCore.QRect(46, 230, 106, 20))
+        self.label_train4.setGeometry(QtCore.QRect(40, 150, 106, 20))
         self.horizontalSlider2 = QtWidgets.QSlider(self.groupBox_train)
-        self.horizontalSlider2.setGeometry(QtCore.QRect(170, 230, 120, 22))
+        self.horizontalSlider2.setGeometry(QtCore.QRect(170, 150, 110, 22))
         self.horizontalSlider2.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider2.setMinimum(0)
         self.horizontalSlider2.setMaximum(1000)
@@ -73,16 +73,16 @@ class Ui_Form_DBN(QWidget):
         '''self.horizontalSlider2.setTickInterval(500)
         self.horizontalSlider2.setTickPosition(QSlider.TicksAbove)'''
         self.slider_text2 = QtWidgets.QLineEdit(self.groupBox_train)
-        self.slider_text2.setGeometry(QtCore.QRect(300, 230, 45, 27))
+        self.slider_text2.setGeometry(QtCore.QRect(290, 150, 45, 27))
         self.slider_text2.setFrame(False)
         self.slider_text2.setValidator(QIntValidator(0, 1000, self))
         self.slider_text2.setPlaceholderText(str(100))
         self.slider_text2.returnPressed.connect(self.edit2slider2)
 
         self.label_train3 = QtWidgets.QLabel(self.groupBox_train)  # DBN迭代次数
-        self.label_train3.setGeometry(QtCore.QRect(50, 290, 91, 20))
+        self.label_train3.setGeometry(QtCore.QRect(40, 190, 91, 20))
         self.horizontalSlider = QtWidgets.QSlider(self.groupBox_train)
-        self.horizontalSlider.setGeometry(QtCore.QRect(170, 290, 120, 22))
+        self.horizontalSlider.setGeometry(QtCore.QRect(170, 190, 110, 22))
         self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider.setMinimum(0)
         self.horizontalSlider.setMaximum(1000)
@@ -91,23 +91,45 @@ class Ui_Form_DBN(QWidget):
         '''self.horizontalSlider.setTickInterval(5000)
         self.horizontalSlider.setTickPosition(QSlider.TicksAbove)'''
         self.slider_text1 = QtWidgets.QLineEdit(self.groupBox_train)
-        self.slider_text1.setGeometry(QtCore.QRect(300, 290, 45, 27)) 
+        self.slider_text1.setGeometry(QtCore.QRect(290, 190, 45, 27)) 
         self.slider_text1.setFrame(False)
         self.slider_text1.setValidator(QIntValidator(0, 1000, self))
         self.slider_text1.setPlaceholderText(str(100))
         self.slider_text1.returnPressed.connect(self.edit2slider)
 
         self.labeltrain2_2 = QtWidgets.QLabel(self.groupBox_train) # DBN学习率
-        self.labeltrain2_2.setGeometry(QtCore.QRect(50, 350, 81, 20))
+        self.labeltrain2_2.setGeometry(QtCore.QRect(40, 230, 81, 20))
         self.lineEdit_2 = QtWidgets.QLineEdit(self.groupBox_train)
-        self.lineEdit_2.setGeometry(QtCore.QRect(170, 350, 81, 25))
+        self.lineEdit_2.setGeometry(QtCore.QRect(170, 230, 81, 25))
         self.lineEdit_2.setFrame(False)
         self.lineEdit_2.setPlaceholderText(str(0.001))
         self.lineEdit_2.setValidator(QDoubleValidator(0, 20, 6, self))
 
         
         self.pushButton_train = QtWidgets.QPushButton(self.groupBox_train) # 开始训练
-        self.pushButton_train.setGeometry(QtCore.QRect(115, 430, 131, 51))
+        self.pushButton_train.setGeometry(QtCore.QRect(115, 280, 131, 51))
+
+        self.label_train_show1 = QtWidgets.QLabel(self.groupBox_train)
+        self.label_train_show1.setGeometry(QtCore.QRect(40, 360, 291, 5))
+        self.label_train_show = QtWidgets.QLabel(self.groupBox_train)
+        self.label_train_show.setGeometry(QtCore.QRect(40, 365, 291, 31))
+
+        self.label_text_acc = QtWidgets.QLabel(self.groupBox_train)
+        self.label_text_acc.setGeometry(QtCore.QRect(40, 420, 60, 31))
+        self.label_text_recision = QtWidgets.QLabel(self.groupBox_train)
+        self.label_text_recision.setGeometry(QtCore.QRect(155, 420, 60, 31))
+        self.label_text_recall = QtWidgets.QLabel(self.groupBox_train)
+        self.label_text_recall.setGeometry(QtCore.QRect(270, 420, 60, 31))
+
+        self.label_acc = QtWidgets.QLabel(self.groupBox_train)
+        self.label_acc.setGeometry(QtCore.QRect(30, 460, 80, 61))
+        self.label_acc.setText('-')
+        self.label_recision = QtWidgets.QLabel(self.groupBox_train)
+        self.label_recision.setGeometry(QtCore.QRect(145, 460, 80, 61))
+        self.label_recision.setText('-')
+        self.label_recall = QtWidgets.QLabel(self.groupBox_train)
+        self.label_recall.setGeometry(QtCore.QRect(260, 460, 80, 61))
+        self.label_recall.setText('-')
         
 
         # 中间 accuracy
@@ -155,6 +177,19 @@ class Ui_Form_DBN(QWidget):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label_train1.setText(_translate("Form", "数据集训练"))
         self.label_train1.setAlignment(Qt.AlignCenter)
+        self.label_train_show.setText(_translate("Form", "测试集结果"))
+        self.label_text_acc.setText(_translate("Form", "准确率"))
+        self.label_text_recision.setText(_translate("Form", "精准率"))
+        self.label_text_recall.setText(_translate("Form", "召回率"))
+        self.label_text_acc.setAlignment(Qt.AlignCenter)
+        self.label_text_recision.setAlignment(Qt.AlignCenter)
+        self.label_text_recall.setAlignment(Qt.AlignCenter)
+        '''self.label_acc.setText(_translate("Form", "89.34%"))
+        self.label_recision.setText(_translate("Form", "65.74%"))
+        self.label_recall.setText(_translate("Form", "90.00%"))'''
+        self.label_acc.setAlignment(Qt.AlignCenter)
+        self.label_recision.setAlignment(Qt.AlignCenter)
+        self.label_recall.setAlignment(Qt.AlignCenter)
         self.pushButton_train.setText(_translate("Form", "开始训练"))
         self.label_train2.setText(_translate("Form", "RBM学习率"))
         self.label_train3_2.setText(_translate("Form", "RBM迭代次数"))
@@ -173,6 +208,9 @@ class Ui_Form_DBN(QWidget):
         self.groupBox_train.setStyleSheet('''QGroupBox{border:1px solid #00AA72;border-radius:6px;}''')
         self.label_train1.setStyleSheet('''QLabel{color:white;background:#00AA72;border-radius:6px;border:1px solid #00AA72;} ''')
         self.label_train1_2.setStyleSheet('''QLabel{background:#00AA72} ''')  
+
+        self.label_train_show1.setStyleSheet('''QLabel{background:#00AA72;} ''')
+        self.label_train_show.setStyleSheet('''QLabel{color:#00AA72;background:#f0f0f0;} ''')
 
         self.groupBox_acc.setStyleSheet('''QGroupBox{border:1px solid #0772A1;border-radius:6px;}''')
         self.label_acc1.setStyleSheet('''QLabel{color:white;background:#0772A1;border-radius:6px;border:1px solid #0772A1;} ''')
@@ -197,6 +235,7 @@ class Ui_Form_DBN(QWidget):
         self.label_train1.setFont(font)
         self.label_acc1.setFont(font)
         self.label_loss1.setFont(font)
+        self.label_train_show.setFont(font)
         font.setBold(False)          # 初始学习率等
         font.setPointSize(11)
         self.label_train2.setFont(font)
@@ -204,6 +243,11 @@ class Ui_Form_DBN(QWidget):
         self.label_train3.setFont(font)
         self.label_train3_2.setFont(font)
         self.label_train4.setFont(font)
+        font.setBold(False)          #测试集准确率等 
+        font.setPointSize(12)
+        self.label_text_acc.setFont(font)
+        self.label_text_recall.setFont(font)
+        self.label_text_recision.setFont(font)
         font.setFamily('微软雅黑')    # 开始训练
         font.setBold(True)         
         font.setPointSize(15)
@@ -221,6 +265,13 @@ class Ui_Form_DBN(QWidget):
         self.label_train3_2.setStyleSheet('''QLabel{color:#373F43}''')
         self.label_train4.setStyleSheet('''QLabel{color:#373F43}''')
 
+        self.label_text_acc.setStyleSheet('''QLabel{color:#373F43}''') #准确率 、 召回率……
+        self.label_text_recision.setStyleSheet('''QLabel{color:#373F43}''')
+        self.label_text_recall.setStyleSheet('''QLabel{color:#373F43}''')
+        self.label_acc.setStyleSheet('''QLabel{color:#373F43}''') 
+        self.label_recision.setStyleSheet('''QLabel{color:#373F43}''')
+        self.label_recall.setStyleSheet('''QLabel{color:#373F43}''')
+
         font.setFamily('comforta')  # 初始学习率等的输入
         font.setBold(False)
         font.setPointSize(10)
@@ -230,6 +281,11 @@ class Ui_Form_DBN(QWidget):
         self.slider_text1.setFont(font)
         self.slider_text1_2.setFont(font)
         self.slider_text2.setFont(font)
+        font.setPointSize(15)
+        font.setWeight(90)
+        self.label_acc.setFont(font)
+        self.label_recision.setFont(font)
+        self.label_recall.setFont(font)
     
     def slider2edit(self):
         val = self.horizontalSlider.value()

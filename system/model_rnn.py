@@ -23,10 +23,14 @@ def get_rnndata():
     val_data_set = h5f2['X'][:,:,:,0]
     val_labels = h5f2['Y']
 
+    h5f3 = h5py.File('./data/test.h5', 'r')
+    test_data_set = h5f3['X'][:,:,:,0]
+    test_labels = h5f3['Y']
+
     print('样本数据集的个数：%d' % train_data_set.shape[0])
     print('验证数据集的个数：%d' % val_data_set.shape[0])
 
-    return train_data_set, train_labels, val_data_set, val_labels
+    return train_data_set, train_labels, val_data_set, val_labels, test_data_set, test_labels
 
 
 #交叉熵损失
@@ -51,6 +55,30 @@ def compute_accuracy(labels,pre_labels):
             right+=1
     acc = right/n
     return acc
+
+#召回率等
+def compute_recision_and_recall(labels,pre_labels):
+    n = len(labels)
+    tp = 0
+    fp = 0
+    tn = 0
+    fn = 0
+    for i in range(n):
+        real_type = labels[i].argmax()
+        pre_type = pre_labels[i].argmax()
+        if pre_type == 0:
+            if real_type == 0:
+                tp += 1
+            else:
+                fp += 1
+        else:
+            if real_type == 1:
+                tn +=1
+            else:
+                fn += 1
+    recision = tn/(tn+fn)
+    recall = tn/(tn+fp)
+    return recision, recall
 
 
 def Relu(x): #Relu函数

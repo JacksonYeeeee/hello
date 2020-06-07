@@ -5,7 +5,7 @@ import os
 import time
 import sys
 sys.path.append("../base")
-from model_dbn2.base_func import Batch,Loss,Accuracy,Optimization,plot_para_pic,tSNE_2d
+from model_dbn2.base_func import Batch,Loss,Accuracy,Recall,Optimization,plot_para_pic,tSNE_2d
 
 
 class Model(object):
@@ -44,6 +44,7 @@ class Model(object):
         self.decay_lr = False
         self.loss = None
         self.accuracy = None
+        self.recall = None
         self.train_batch = None
         # for summary (tensorboard)
         self.merge = None
@@ -84,6 +85,11 @@ class Model(object):
             _ac=Accuracy(label_data=label_data,
                          pred=self.pred)
             self.accuracy=_ac.accuracy()
+        #回归率
+        if self.recall is None:
+            _recall = Recall(label_data=label_data,pred=self.pred)
+            self.recall = _recall.recall()
+
             
         # 构建训练步
         if self.train_batch is None:

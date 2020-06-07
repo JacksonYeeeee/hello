@@ -127,16 +127,16 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
             self.tab_dbn.slider_text1.setText(str(100))
     
     def check_val_cnn(self):
-        if self.tab_rnn.lineEdit.displayText() == "":
-            self.tab_rnn.lineEdit.setText(str(0.0002))
-        if self.tab_rnn.lineEdit_2.displayText() == "":
-            self.tab_rnn.lineEdit_2.setText(str(0.9))
-        if self.tab_rnn.lineEdit_3.displayText() == "":
-            self.tab_rnn.lineEdit_3.setText(str(100))
-        if self.tab_rnn.slider_text1.displayText() == "":
-            self.tab_rnn.slider_text1.setText(str(3000))
-        if self.tab_rnn.slider_text2.displayText() == "":
-            self.tab_rnn.slider_text2.setText(str(100))
+        if self.tab_cnn.lineEdit.displayText() == "":
+            self.tab_cnn.lineEdit.setText(str(0.0002))
+        if self.tab_cnn.lineEdit_2.displayText() == "":
+            self.tab_cnn.lineEdit_2.setText(str(0.9))
+        if self.tab_cnn.lineEdit_3.displayText() == "":
+            self.tab_cnn.lineEdit_3.setText(str(100))
+        if self.tab_cnn.slider_text1.displayText() == "":
+            self.tab_cnn.slider_text1.setText(str(3000))
+        if self.tab_cnn.slider_text2.displayText() == "":
+            self.tab_cnn.slider_text2.setText(str(100))
         
     
     # 获取参数
@@ -241,11 +241,14 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
     def dnntrain(self):
         self.tab_dnn.edit_acc.setHidden(False)
         self.tab_dnn.edit_loss.setHidden(False)
+        self.tab_dnn.label_acc.setText('-')
+        self.tab_dnn.label_recision.setText('-')
+        self.tab_dnn.label_recall.setText('-')
         self.check_val()
         QApplication.processEvents()
         self.nofocus(self.tab_dnn)
         
-        X_train_images, Y_train_labels, X_val_images, Y_val_labels = getdata()
+        X_train_images, Y_train_labels, X_val_images, Y_val_labels, X_test_images, Y_test_labels = getdata()
 
         self.printlen(self.tab_dnn)
         QApplication.processEvents()
@@ -285,7 +288,17 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
                 costs.append(cost)
                 val_accs.append(val_acc)
                 val_costs.append(val_cost)
-        
+                
+            tp, tn, fp, fn = sess.run([tp_op, tn_op, fp_op, fn_op],feed_dict={X:X_test_images,y:Y_test_labels})
+            test_acc = (tp+tn)/(tp+tn+fp+fn)
+            test_recision = tp/(tp+fp)
+            test_recall = tp/(tp+fn)
+            self.tab_dnn.label_acc.setText(str('%.2f'%(test_acc*100))+'%')
+            self.tab_dnn.label_recision.setText(str('%.2f'%(test_recision*100))+'%')
+            self.tab_dnn.label_recall.setText(str('%.2f'%(test_recall*100))+'%')
+            QApplication.processEvents()
+            #print(test_acc, test_recision, test_recall)
+
         self.focus(self.tab_dnn)
         self.tab_dnn.edit_acc.setText("")
         self.tab_dnn.edit_loss.setText("")
@@ -300,11 +313,14 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
     def rnntrain(self):
         self.tab_rnn.edit_acc.setHidden(False)
         self.tab_rnn.edit_loss.setHidden(False)
+        self.tab_rnn.label_acc.setText('-')
+        self.tab_rnn.label_recision.setText('-')
+        self.tab_rnn.label_recall.setText('-')
         self.check_val_rnn()
         QApplication.processEvents()
         self.nofocus(self.tab_rnn)
 
-        train_data_set, train_labels, val_data_set, val_labels = get_rnndata()
+        train_data_set, train_labels, val_data_set, val_labels, test_data_set, test_labels = get_rnndata()
 
         self.printlen(self.tab_rnn)
         QApplication.processEvents()
@@ -352,6 +368,14 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
             self.tab_rnn.edit_loss.append(str(epoch + 1) + " [×100]  train_loss: " + str('%.6f'%mean_loss) + "  val_loss: " + str('%.6f'%val_loss))
             QApplication.processEvents()
         
+        outputs = mynet.predict(test_data_set)
+        test_acc = compute_accuracy(test_labels,outputs)
+        test_recision, test_recall = compute_recision_and_recall(test_labels,outputs)
+        self.tab_rnn.label_acc.setText(str('%.2f'%(test_acc*100))+'%')
+        self.tab_rnn.label_recision.setText(str('%.2f'%(test_recision*100))+'%')
+        self.tab_rnn.label_recall.setText(str('%.2f'%(test_recall*100))+'%')
+        QApplication.processEvents()
+        
         self.focus(self.tab_rnn)
         self.tab_rnn.edit_acc.setText("")
         self.tab_rnn.edit_loss.setText("")
@@ -370,7 +394,7 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
         QApplication.processEvents()
         self.nofocus(self.tab_cnn)
 
-        train_data_set, train_labels, val_data_set, val_labels = get_rnndata()
+        train_data_set, train_labels, val_data_set, val_labels, test_data_set, test_labels = get_rnndata()
 
         self.printlen(self.tab_cnn)
         QApplication.processEvents()
@@ -420,11 +444,14 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
     def dbntrain2(self):
         self.tab_dbn.edit_acc.setHidden(False)
         self.tab_dbn.edit_loss.setHidden(False)
+        self.tab_dbn.label_acc.setText('-')
+        self.tab_dbn.label_recision.setText('-')
+        self.tab_dbn.label_recall.setText('-')
         self.check_val_dbn()
         QApplication.processEvents()
         self.nofocus(self.tab_dbn)
 
-        datasets = get_data_dbn()
+        datasets,test_data_set,test_labels = get_data_dbn()
         x_dim=datasets[0].shape[1] 
         y_dim=datasets[1].shape[1] 
         tf.reset_default_graph()
@@ -562,6 +589,18 @@ class MainUi(QTabWidget,Ui_Form,Ui_Form_RNN,Ui_Form_DBN):
             #print('\r'+ string)
             self.tab_dbn.edit_loss.append('\r'+ string)
             QApplication.processEvents()
+        
+        test_acc,recalls=sess.run([classifier.accuracy,classifier.recall],feed_dict={
+                                                classifier.input_data: test_data_set,
+                                                classifier.label_data: test_labels,
+                                                classifier.keep_prob: 1-classifier.dropout})
+        #recalls:tp_op, fp_op, tn_op, fn_op
+        test_recision = recalls[0]/(recalls[0]+recalls[1])
+        test_recall = recalls[0]/(recalls[0]+recalls[3])
+        self.tab_dbn.label_acc.setText(str('%.2f'%(test_acc*100))+'%')
+        self.tab_dbn.label_recision.setText(str('%.2f'%(test_recision*100))+'%')
+        self.tab_dbn.label_recall.setText(str('%.2f'%(test_recall*100))+'%')
+        QApplication.processEvents()
         
         self.draw_acc_and_loss_dbn(self.gridlayout2_dbn,list(range(len(tune_accs))),tune_losses,tune_accs,tune_val_accs)
         QApplication.processEvents()

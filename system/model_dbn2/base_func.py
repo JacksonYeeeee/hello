@@ -217,6 +217,71 @@ class Accuracy(object):
         return tf.reduce_mean(tf.cast(tf.equal(pre_lables,data_lables),tf.float32))
 
 ###########################
+#         回归率类         #
+###########################
+        
+class Recall(object):
+    def __init__(self,
+                 label_data,
+                 pred):
+        self.label_data = label_data
+        self.pred = pred
+        
+    def recall(self):
+        if self.label_data.shape[1]>1:
+            pre_lables=tf.argmax(self.pred,axis=1)
+            data_lables=tf.argmax(self.label_data,axis=1)
+        else:
+            pre_lables=tf.round(self.pred)
+            data_lables=tf.round(self.label_data)
+        
+        ones_like_actuals = tf.ones_like(data_lables)
+        zeros_like_actuals = tf.zeros_like(data_lables)
+        ones_like_predictions = tf.ones_like(pre_lables)
+        zeros_like_predictions = tf.zeros_like(pre_lables)
+
+        tp_op = tf.reduce_sum(
+            tf.cast(
+                tf.logical_and(
+                    tf.equal(data_lables, ones_like_actuals),
+                    tf.equal(pre_lables, ones_like_predictions)
+                ),
+                "float"
+            )
+        )
+ 
+        tn_op = tf.reduce_sum(
+            tf.cast(
+            tf.logical_and(
+                tf.equal(data_lables, zeros_like_actuals),
+                tf.equal(pre_lables, zeros_like_predictions)
+                ),
+                "float"
+            )
+        )
+ 
+        fp_op = tf.reduce_sum(
+            tf.cast(
+            tf.logical_and(
+                tf.equal(data_lables, zeros_like_actuals),
+                tf.equal(pre_lables, ones_like_predictions)
+                ),
+                "float"
+            )
+        )
+ 
+        fn_op = tf.reduce_sum(
+            tf.cast(
+            tf.logical_and(
+                tf.equal(data_lables, ones_like_actuals),
+                tf.equal(pre_lables, zeros_like_predictions)
+            ),
+            "float"
+            )
+        )
+        return tp_op, fp_op, tn_op, fn_op
+
+###########################
 #         优化器类         #
 ###########################
     
